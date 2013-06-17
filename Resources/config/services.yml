@@ -1,7 +1,27 @@
 parameters:
-#    ktq_key_media.example.class: KTQ\Bundle\KeyMediaBundle\Example
+    ezpublish.fieldType.keymedia.class:                 KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\Type
+    ezpublish.fieldType.keymedia.converter.class:       KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\FieldValue\Converter\KeyMedia
+    ezpublish.fieldType.keymedia.externalStorage.class: KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\KeyMediaStorage
+    ezpublish.fieldType.keymedia.storage_gateway.class: KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\KeyMediaStorage\Gateway\LegacyStorage
 
 services:
-#    ktq_key_media.example:
-#        class: %ktq_key_media.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    ezpublish.fieldType.keymedia:
+        class: %ezpublish.fieldType.keymedia.class%
+        parent: ezpublish.fieldType
+        tags:
+            - {name: ezpublish.fieldType, alias: keymedia}
+
+    ezpublish.fieldType.keymedia.converter:
+        class: %ezpublish.fieldType.keymedia.converter.class%
+        tags:
+            - {name: ezpublish.storageEngine.legacy.converter, alias: keymedia, lazy: true, callback: '::create'}
+
+    ezpublish.fieldType.keymedia.externalStorage:
+        class: %ezpublish.fieldType.keymedia.externalStorage.class%
+        tags:
+            - {name: ezpublish.fieldType.externalStorageHandler, alias: keymedia}
+
+    ezpublish.fieldType.keymedia.storage_gateway:
+        class: %ezpublish.fieldType.keymedia.storage_gateway.class%
+        tags:
+            - {name: ezpublish.fieldType.externalStorageHandler.gateway, alias: keymedia, identifier: LegacyStorage}

@@ -14,21 +14,22 @@ use eZ\Publish\Core\FieldType\Value as BaseValue;
 
 class Value extends BaseValue
 {
-    /**
-     * JSON containing all the data
-     *
-     * @var string
-     */
-    public $json;
+    public $id, $scalesTo, $ending, $file, $versions;
 
     /**
      * Construct a new Value object and initialize it with its $link and optional $text
      *
-     * @param string $json
+     * @param string $value
      */
-    public function __construct($json = null)
+    public function __construct($value = null)
     {
-        $this->json = $json;
+        if ($value) {
+            $data = json_decode($value);
+            foreach ($data as $key => $val) {
+                if (property_exists($this, $key))
+                    $this->$key = $val;
+            }
+        }
     }
 
     /**
@@ -36,6 +37,6 @@ class Value extends BaseValue
      */
     public function __toString()
     {
-        return (string)$this->json;
+        return json_encode($this);
     }
 }

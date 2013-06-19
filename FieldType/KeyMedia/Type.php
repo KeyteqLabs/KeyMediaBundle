@@ -17,6 +17,13 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 
 class Type extends FieldType
 {
+    protected $validatorConfigurationSchema = array();
+    protected $settingsSchema = array(
+        'keymedia' => array(
+            'type' => 'object',
+            'default' => null
+        )
+    );
     /**
      * Returns the field type identifier for this field type
      *
@@ -39,12 +46,11 @@ class Type extends FieldType
      */
     public function getName($value)
     {
-        if ($value === null)
-        {
+        if ($value === null) {
             return '';
         }
         $value = $this->acceptValue($value);
-        return (string)$value->json;
+        return (string)$value->value;
     }
 
     /**
@@ -67,12 +73,10 @@ class Type extends FieldType
      */
     protected function internalAcceptValue($inputValue)
     {
-        if (is_string($inputValue))
-        {
+        if (is_string($inputValue)) {
             $inputValue = new Value($inputValue);
         }
-        else if (!$inputValue instanceof Value)
-        {
+        else if (!$inputValue instanceof Value) {
             throw new InvalidArgumentType(
                 '$inputValue',
                 'KTQ\\Bundle\\KeyMediaBundle\\FieldType\\KeyMedia\\Value',
@@ -80,12 +84,11 @@ class Type extends FieldType
             );
         }
 
-        if (isset($inputValue->json) && !is_string($inputValue->json))
-        {
+        if (isset($inputValue->value) && !is_string($inputValue->value)) {
             throw new InvalidArgumentType(
-                '$inputValue->json',
+                '$inputValue->value',
                 'string',
-                $inputValue->json
+                $inputValue->value
             );
         }
 
@@ -116,8 +119,8 @@ class Type extends FieldType
         if ($hash === null)
             return $hash;
 
-        if (isset($hash['json']))
-            return new Value($hash['json']);
+        if (isset($hash['value']))
+            return new Value($hash['value']);
 
         return $this->getEmptyValue();
     }
@@ -134,7 +137,7 @@ class Type extends FieldType
         if ($this->isEmptyValue($value))
             return null;
 
-        return array('json' => $value->json);
+        return array('value' => $value->value);
     }
 
     /**
@@ -174,7 +177,7 @@ class Type extends FieldType
         return new FieldValue(
             array(
                 'data' => array(
-                    'json' => $value->json
+                    'value' => $value->value
                 ),
                 'externalData' => null,
                 'sortKey' => $this->getSortInfo($value)
@@ -196,8 +199,9 @@ class Type extends FieldType
         if ($fieldValue->data === null)
             return null;
 
-        return new Value(
+        $v = new Value(
             $fieldValue->data
         );
+        return $v;
     }
 }

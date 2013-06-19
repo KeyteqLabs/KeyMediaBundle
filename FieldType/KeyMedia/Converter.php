@@ -1,17 +1,15 @@
 <?php
 
-namespace KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\FieldValue\Converter;
+namespace KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter;
+use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter as BaseConverter;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
 use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use eZ\Publish\Core\FieldType\FieldSettings;
 
-/**
- * Converter for KeyMedia field values in legacy storage
- */
-class KeyMedia implements Converter
+class Converter implements BaseConverter
 {
     /**
      * Factory for current class
@@ -33,6 +31,8 @@ class KeyMedia implements Converter
      */
     public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
     {
+        $value->dataText = $fieldValue->data;
+        $value->sortKeyString = $fieldValue->sortKey;
     }
 
     /**
@@ -43,6 +43,8 @@ class KeyMedia implements Converter
      */
     public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
     {
+        $fieldValue->data = $value->dataText;
+        $fieldValue->sortKey = $value->sortKeyString;
     }
 
     /**
@@ -53,6 +55,7 @@ class KeyMedia implements Converter
      */
     public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
     {
+        $storageDef->dataText5 = json_encode($fieldDef->defaultValue->data);
     }
 
     /**
@@ -63,6 +66,17 @@ class KeyMedia implements Converter
      */
     public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
     {
+        $defaultValue = null;
+        if ($storageDef->dataText5) {
+            $defaultValue = json_decode($storageDef->dataText5);
+        }
+
+        $fieldDef->defaultValue->data = $defaultValue;
+
+
+        $fieldDef->defaultValue->data = $storageDef->dataText5 ?: null;
+        $fieldDef->fieldTypeConstraints->validators = array();
+        $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings();
     }
 
     /**
@@ -72,6 +86,6 @@ class KeyMedia implements Converter
      */
     public function getIndexColumn()
     {
-        return false;
+        return 'sort_key_string';
     }
 }

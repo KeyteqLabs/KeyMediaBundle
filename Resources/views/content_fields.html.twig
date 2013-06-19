@@ -2,7 +2,7 @@
 
 {% block keymedia_field %}
 {% spaceless %}
-    {{ dump(field) }}
+    {{ dump(field.value) }}
     {#
         Name            Type                                                    Description
         versionInfo     eZ\Publish\API\Repository\Values\Content\VersionInfo    The VersionInfo to which the field belongs to

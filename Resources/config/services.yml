@@ -1,6 +1,6 @@
 parameters:
-    ezpublish.fieldType.keymedia.class:                 KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\Type
-    ezpublish.fieldType.keymedia.converter.class:       KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\FieldValue\Converter\KeyMedia
+    ezpublish.fieldType.keymedia.class: KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\Type
+    ezpublish.fieldType.keymedia.converter.class: KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\FieldValue\Converter\KeyMedia
     ezpublish.fieldType.keymedia.externalStorage.class: KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\KeyMediaStorage
     ezpublish.fieldType.keymedia.storage_gateway.class: KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\KeyMediaStorage\Gateway\LegacyStorage
 

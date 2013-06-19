@@ -1,0 +1,4 @@
+system:
+    global:
+        field_templates:
+            - { template: KTQKeyMediaExtension:field:keymedia.html.twig, priority: 1000 }

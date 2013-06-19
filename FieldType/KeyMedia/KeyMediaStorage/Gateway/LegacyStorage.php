@@ -61,6 +61,16 @@ class LegacyStorage extends Gateway
         return $this->dbHandler;
     }
 
+    public function storeFieldData(VersionInfo $versionInfo, Field $field)
+    {
+
+    }
+
+    public function getFieldData(Field $field)
+    {
+
+    }
+
     /**
      * Fetches a row in ezurl table referenced by its $id
      *

@@ -1,4 +1,4 @@
 system:
     global:
         field_templates:
-            - { template: "KTQKeyMediaBundle::content_fields.html.twig", priority: 0 }
+            - { template: "KTQKeyMediaBundle::field.html.twig", priority: 0 }

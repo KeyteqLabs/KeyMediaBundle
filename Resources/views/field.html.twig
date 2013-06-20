@@ -2,18 +2,9 @@
 
 {% block keymedia_field %}
 {% spaceless %}
-    <pre style="clear: both;">
-    {{ dump(field) }}
-    </pre>
-    {#
-        Name            Type                                                    Description
-        versionInfo     eZ\Publish\API\Repository\Values\Content\VersionInfo    The VersionInfo to which the field belongs to
-        parameters      hash                                                    Options passed to ez_render_field() under the parameters key
-        fieldSettings   mixed                                                   Settings of the field (depends on the FieldType)
-        field           eZ\Publish\API\Repository\Values\Content\Field          The field to display
-        contentInfo     eZ\Publish\API\Repository\Values\Content\ContentInfo    The ContentInfo to which the field belongs to
-        attr            hash                                                    The attributes to add the generate the HTML markup.
-                                                                                Contains at least a class entry, containing <fieldtypeidentifier>-field
-    #}
+    {% include 'design:content/datatype/view/ez5-keymedia-adapter.tpl' with {
+        'attributeId': field.id,
+        'objectId': contentInfo.id
+    } %}
 {% endspaceless %}
 {% endblock %}

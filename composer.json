@@ -1,0 +1,8 @@
+{
+	"name": "ktq/keymedia-bundle",
+	"autoloads" : {
+		"psr-0":{
+                       "KTQ": "src/"
+                }
+	}
+}

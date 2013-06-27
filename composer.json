@@ -1,5 +1,5 @@
 {
-	"name": "ktq/keymedia-bundle",
+	"name": "keyteqlabs/keymediabundle",
 	"autoload" : {
 		"psr-0":{
                        "KTQ": "src/"

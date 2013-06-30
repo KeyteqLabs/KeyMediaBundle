@@ -40,7 +40,7 @@ The setting `parameters.keymedia_active_siteaccess` should then be added to `par
 
 ```yml
 parameters:
-    keymedia_active_siteaccesses: frontend_group
+    keymedia_active_siteaccess: frontend_group
 ```
 
 ## Usage

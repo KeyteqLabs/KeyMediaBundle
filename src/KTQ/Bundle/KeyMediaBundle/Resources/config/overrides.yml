@@ -1,4 +1,4 @@
 system:
-    global:
+    %keymedia_active_siteaccesses%:
         field_templates:
             - { template: "KTQKeyMediaBundle::field.html.twig", priority: 0 }

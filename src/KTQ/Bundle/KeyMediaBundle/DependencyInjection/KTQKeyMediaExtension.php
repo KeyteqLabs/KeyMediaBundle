@@ -27,7 +27,7 @@ class KTQKeyMediaExtension extends Extension implements PrependExtensionInterfac
 
     public function prepend(ContainerBuilder $container)
     {
-        $config = Yaml::parse( __DIR__ . '/../Resources/config/overrides.yml' );
-        $container->prependExtensionConfig('ezpublish', $config);
+        $overrides = Yaml::parse(__DIR__ . '/../Resources/config/overrides.yml');
+        $container->prependExtensionConfig('ezpublish', $overrides);
     }
 }

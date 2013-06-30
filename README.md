@@ -15,7 +15,7 @@ In your global `parameters.yml`, define which siteaccess or siteaccess group Key
 
 The cleanest way to do this is probably to define a separate group for the frontend siteaccess:
 
-```yaml
+```yml
 ezpublish:
     siteaccess:
         default_siteaccess: mysite
@@ -36,9 +36,9 @@ ezpublish:
                 - nor
 ```
 
-The settings `parameters.keymedia_active_siteaccesses` should then be added to `parameters.yml` like this:
+The setting `parameters.keymedia_active_siteaccess` should then be added to `parameters.yml` like this:
 
-```yaml
+```yml
 parameters:
     keymedia_active_siteaccesses: frontend_group
 ```

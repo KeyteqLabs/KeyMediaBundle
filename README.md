@@ -11,7 +11,16 @@ And if you want a better user experience;
 * <a href="http://github.com/KeyteqLabs/ezexceed/">eZ Exceed</a>
 
 ## Activation
-In your global `parameters.yml`, define which siteaccess or siteaccess group KeyMedia should be activated for. Make sure you don’t activate it for your admin (back office) siteaccess.
+First, activate the bundle in your `EzPublishKernel.php`:
+
+```php
+$bundles = array(
+    ...
+    new KTQ\Bundle\KeyMediaBundle\KTQKeyMediaBundle(),
+);
+```
+
+Then, in your global `parameters.yml`, define which siteaccess or siteaccess group KeyMedia should be activated for. Make sure you don’t activate it for your admin (back office) siteaccess, else some of its views will get borked.
 
 The cleanest way to do this is probably to define a separate group for the frontend siteaccess:
 

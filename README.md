@@ -10,6 +10,27 @@ Symfony/eZ5 bundle for KeyMedia
 And if you want a better user experience;
 * <a href="http://github.com/KeyteqLabs/ezexceed/">eZ Exceed</a>
 
+## Installation
+Install via [Composer](http://getcomposer.org/) – add the following to your `composer.json`:
+
+```json
+{
+    "repositories": [
+        ...
+        {
+            "type": "git",
+            "url": "git@github.com:KeyteqLabs/KeyMediaBundle.git"
+        }
+    ],
+    "require": {
+        ...
+        "keyteqlabs/keymediabundle": "dev-master"
+    }
+}
+```
+
+Run a Composer update, and the bundle will be automagically installed.
+
 ## Activation
 First, activate the bundle in your `EzPublishKernel.php`:
 

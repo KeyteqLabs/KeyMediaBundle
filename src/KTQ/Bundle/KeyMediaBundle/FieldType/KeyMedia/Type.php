@@ -12,6 +12,8 @@
 namespace KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia;
 
 use eZ\Publish\Core\FieldType\FieldType;
+use eZ\Publish\Core\FieldType\Value as CoreValue;
+use eZ\Publish\SPI\FieldType\Value as SpiValue;
 use eZ\Publish\SPI\Persistence\Content\FieldValue;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
 
@@ -44,7 +46,7 @@ class Type extends FieldType
      *
      * @return mixed
      */
-    public function getName($value)
+    public function getName(SpiValue $value)
     {
         if ($value === null) {
             return '';
@@ -57,11 +59,11 @@ class Type extends FieldType
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
-        return new Value;
+        return new Value();
     }
 
     /**
@@ -69,7 +71,8 @@ class Type extends FieldType
      *
      * @param mixed $inputValue
      *
-     * @return KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\Value The potentially converted and structurally plausible value.
+     * @throws InvalidArgumentType
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function internalAcceptValue($inputValue)
     {
@@ -100,9 +103,11 @@ class Type extends FieldType
      *
      * @todo Sort seems to not be supported by this FieldType, is this handled correctly?
      *
+     * @param CoreValue $value
+     *
      * @return array
      */
-    protected function getSortInfo($value)
+    protected function getSortInfo(CoreValue $value)
     {
         return false;
     }
@@ -112,7 +117,7 @@ class Type extends FieldType
      *
      * @param mixed $hash
      *
-     * @return KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\Value $value
+     * @return Value $value
      */
     public function fromHash($hash)
     {
@@ -128,11 +133,11 @@ class Type extends FieldType
     /**
      * Converts a Value to a hash
      *
-     * @param KTQ\Bundle\KeyMediaBundle\FieldType\KeyMedia\Value $value
+     * @param SpiValue $value
      *
      * @return mixed
      */
-    public function toHash($value)
+    public function toHash(SpiValue $value)
     {
         if ($this->isEmptyValue($value))
             return null;
@@ -162,7 +167,7 @@ class Type extends FieldType
      *
      * @return \eZ\Publish\SPI\Persistence\Content\FieldValue the value processed by the storage engine
      */
-    public function toPersistenceValue($value)
+    public function toPersistenceValue(SpiValue $value)
     {
         if ($value === null) {
             return new FieldValue(
@@ -204,4 +209,62 @@ class Type extends FieldType
         );
         return $v;
     }
+
+    /**
+     * Inspects given $inputValue and potentially converts it into a dedicated value object.
+     *
+     * If given $inputValue could not be converted or is already an instance of dedicate value object,
+     * the method should simply return it.
+     *
+     * This is an operation method for {@see acceptValue()}.
+     *
+     * Example implementation:
+     * <code>
+     *  protected function createValueFromInput( $inputValue )
+     *  {
+     *      if ( is_array( $inputValue ) )
+     *      {
+     *          $inputValue = \eZ\Publish\Core\FieldType\CookieJar\Value( $inputValue );
+     *      }
+     *
+     *      return $inputValue;
+     *  }
+     * </code>
+     *
+     * @param mixed $inputValue
+     *
+     * @return mixed The potentially converted input value.
+     */
+    protected function createValueFromInput($inputValue)
+    {
+        return $inputValue;
+    }
+
+    /**
+     * Throws an exception if value structure is not of expected format.
+     *
+     * Note that this does not include validation after the rules
+     * from validators, but only plausibility checks for the general data
+     * format.
+     *
+     * This is an operation method for {@see acceptValue()}.
+     *
+     * Example implementation:
+     * <code>
+     *  protected function checkValueStructure( Value $value )
+     *  {
+     *      if ( !is_array( $value->cookies ) )
+     *      {
+     *          throw new InvalidArgumentException( "An array of assorted cookies was expected." );
+     *      }
+     *  }
+     * </code>
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     *
+     * @param \eZ\Publish\Core\FieldType\Value $value
+     *
+     * @return void
+     */
+    protected function checkValueStructure(CoreValue $value) {}
 }

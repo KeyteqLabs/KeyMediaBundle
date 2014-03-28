@@ -1,5 +1,5 @@
 {
-	"name": "keyteqlabs/keymediabundle",
+	"name": "keyteqlabs/keymedia-ezpublish-bundle",
 	"autoload" : {
 		"psr-0":{
                        "KTQ": "src/"

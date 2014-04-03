@@ -13,3 +13,9 @@ services:
         class: %ezpublish.fieldType.keymedia.converter.class%
         tags:
             - {name: ezpublish.storageEngine.legacy.converter, alias: keymedia, lazy: true, callback: '::create'}
+
+    keymedia.twig_extension:
+        class: KTQ\Bundle\KeyMediaBundle\Twig\KeymediaExtension
+        arguments: [@ezpublish_legacy.kernel]
+        tags:
+            - { name: twig.extension }

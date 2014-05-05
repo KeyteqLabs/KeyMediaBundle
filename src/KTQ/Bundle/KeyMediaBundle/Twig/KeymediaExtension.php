@@ -8,6 +8,7 @@
 
 namespace KTQ\Bundle\KeyMediaBundle\Twig;
 
+use eZ\Publish\Core\Helper\TranslationHelper;
 use eZ\Publish\Core\MVC\Legacy\Kernel;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 
@@ -15,10 +16,13 @@ class KeymediaExtension extends \Twig_Extension
 {
     /** @var Kernel|\Closure */
     protected $legacyKernel;
+    /** @var TranslationHelper */
+    protected $translationHelper;
 
-    public function __construct(\Closure $kernelClosure)
+    public function __construct(\Closure $kernelClosure, TranslationHelper $translationHelper)
     {
         $this->legacyKernel = $kernelClosure;
+        $this->translationHelper = $translationHelper;
     }
 
     /**
@@ -38,23 +42,26 @@ class KeymediaExtension extends \Twig_Extension
 
     public function keyMedia(Content $content, $identifier, $parameters = array())
     {
+        $field = $this->translationHelper->getTranslatedField($content, $identifier);
+        if (!$field) {
+            throw new \Exception("Field with identifier: {$identifier} does not exist.");
+        }
+
         // Lazy-loading prevents "InactiveScopeException". It also increases performance.
         if ($this->legacyKernel instanceof \Closure) {
             /** @noinspection PhpUndefinedMethodInspection */
             $this->legacyKernel = $this->legacyKernel->__invoke();
         }
 
-        $objectId = $content->id;
-        return $this->legacyKernel->runCallback(function() use($objectId, $identifier, $parameters)
+        $attributeId = $field->id;
+        $version = $content->versionInfo->versionNo;
+        return $this->legacyKernel->runCallback(function() use($attributeId, $version, $parameters)
         {
-            $object = \eZContentObject::fetch($objectId);
-            $attributes = $object->dataMap();
-
-            if (!isset($attributes[$identifier])) {
-                throw new \Exception('Field with identifier: '. $identifier .' does not exist.');
+            if (!$attribute = \eZContentObjectAttribute::fetch($attributeId, $version)) {
+                throw new \Exception("Field with id: {$attributeId} does not exist for version: {$version}.");
             }
 
-            $parameters['attribute'] = $attributes[$identifier];
+            $parameters['attribute'] = $attribute;
             $parameters += array('quality' => false);
             $result = null;
 

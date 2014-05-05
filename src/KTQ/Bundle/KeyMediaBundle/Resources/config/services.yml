@@ -16,6 +16,6 @@ services:
 
     keymedia.twig_extension:
         class: KTQ\Bundle\KeyMediaBundle\Twig\KeymediaExtension
-        arguments: [@ezpublish_legacy.kernel]
+        arguments: [@ezpublish_legacy.kernel, @ezpublish.translation_helper]
         tags:
             - { name: twig.extension }

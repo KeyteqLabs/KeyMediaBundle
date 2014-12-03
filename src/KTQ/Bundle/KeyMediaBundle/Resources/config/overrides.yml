@@ -2,3 +2,7 @@ system:
     %keymedia_active_siteaccess%:
         field_templates:
             - { template: "KTQKeyMediaBundle::field.html.twig", priority: 0 }
+        fieldtypes:
+            ezxml:
+                custom_tags:
+                    - { path: %kernel.root_dir%/../vendor/keyteqlabs/keymedia-ezpublish-bundle/src/KTQ/Bundle/KeyMediaBundle/Resources/xsl/keymedia.xsl, priority: 1}

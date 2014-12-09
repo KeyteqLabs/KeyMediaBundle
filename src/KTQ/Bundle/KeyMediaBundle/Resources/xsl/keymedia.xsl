@@ -14,6 +14,12 @@
     <!-- <custom name="youtube" custom:video="//www.youtube.com/embed/MfOnq-zXXBw" custom:videoWidth="640" custom:videoHeight="380"/> -->
     <xsl:template match="custom[@name='keymedia']">
         <img>
+            <xsl:attribute name="class">
+                <xsl:value-of select="@custom:cssclass"/>
+            </xsl:attribute>
+            <xsl:attribute name="alt">
+                <xsl:value-of select="@custom:alttext"/>
+            </xsl:attribute>
             <xsl:attribute name="align">
                 <xsl:value-of select="@align"/>
             </xsl:attribute>

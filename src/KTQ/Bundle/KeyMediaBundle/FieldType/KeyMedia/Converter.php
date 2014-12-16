@@ -31,8 +31,8 @@ class Converter implements BaseConverter
      */
     public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
     {
-        $value->dataText = $value->data;
-        $value->sortKeyString = $value->sortKey;
+        $storageFieldValue->dataText = $value->data;
+        $storageFieldValue->sortKeyString = $value->sortKey;
     }
 
     /**

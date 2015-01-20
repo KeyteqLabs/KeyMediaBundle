@@ -181,9 +181,7 @@ class Type extends FieldType
 
         return new FieldValue(
             array(
-                'data' => array(
-                    'value' => $value->value
-                ),
+                'data' => (string)$value,
                 'externalData' => null,
                 'sortKey' => $this->getSortInfo($value)
             )

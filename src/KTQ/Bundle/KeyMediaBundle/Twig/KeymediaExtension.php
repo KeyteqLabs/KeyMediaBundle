@@ -68,7 +68,8 @@ class KeymediaExtension extends \Twig_Extension
             $operator = new \TemplateKeymediaOperator();
             $operator->modify('', 'keymedia', null, null, null, $result, $parameters, null);
 
-            return $result;
+            // Return "valid" invalid url to prevent warnings and extra server-requests.
+            return $result ?: array('url' => '//:0');
         });
     }
 }
